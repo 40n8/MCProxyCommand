@@ -3,14 +3,10 @@ package io.github.geraldtm;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 
-import net.minecraft.Util;
-import net.minecraft.util.StringTextComponent;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -40,7 +36,7 @@ public class ProxyCommandMod {
             Commands.literal("proxycommand")
             .requires(cmd -> cmd.hasPermission(2))
             .then(Commands.argument("command", StringArgumentType.string())
-                .executes((command) -> {return sendMessage(command);})
+                .executes(ProxyCommandMod::sendMessage)
                 .build())
         );
 
@@ -52,7 +48,7 @@ public class ProxyCommandMod {
         var player = context.getSource().getPlayer();
         if (player == null) {
             LOGGER.warn("Command \"" + command + "\" was executed without the player as source");
-            context.getSource().sendMessage(new StringTextComponent("Command source must be a player"), Util.NIL_UUID);
+            context.getSource().sendFailure(Component.literal("Command source must be a player"));
             
             return -1;
         }
