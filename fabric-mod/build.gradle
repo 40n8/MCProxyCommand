@@ -1,6 +1,7 @@
 plugins {
     id 'fabric-loom' version '1.6-SNAPSHOT'
     id 'com.modrinth.minotaur' version '2.+'
+    id 'base'
 }
 
 // Fabric Properties. Check these on https://modmuss50.me/fabric.html
@@ -100,12 +101,15 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+base {
+    archivesName = "$rootProject.name-fabric"
+}
+
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
-    archivesBaseName = "$rootProject.name-fabric"
     // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
     // if it is present.
     // If you remove this line, sources will not be generated.
