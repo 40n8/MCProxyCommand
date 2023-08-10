@@ -1,5 +1,8 @@
-package io.github.geraldtm;
+package io.github.geraldtm.proxycommand.forge;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,14 +19,21 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 
-
-
-@Mod("proxycommand")
+@Mod("proxycommandmod")
 public class ProxyCommandMod {
 
-    public static final String MODID = "proxycommand";
+    public static final String MODID = "proxycommandmod";
 
     public static final Logger LOGGER = LogManager.getLogger("ProxyCommand");
+
+    private static final String PROTOCOL_VERSION = "1";
+    public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
+            new ResourceLocation(MODID, "main"),
+            () -> PROTOCOL_VERSION,
+            NetworkRegistry.ACCEPTVANILLA::equals,
+            PROTOCOL_VERSION::equals
+    );
+    int index = 0;
 
     public ProxyCommandMod() {
         LOGGER.info("ProxyCommand is active");
@@ -54,16 +64,25 @@ public class ProxyCommandMod {
         }
 
         LOGGER.info("Proxycommand \"" + command + "\" was triggered by " + player.getName().getString());
-        return 0;
+
+        //INSTANCE.registerMessage(index++, )
+
+        // To communicate with the proxy, a S2C packet sent via the players connection is needed (the player's connection is the means of communication with the proxy)
+        //INSTANCE.send(
+        //         player,
+
+
+        return 1;
     }
 
     @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-    public class Listener {
+    public static class Listener {
         @SubscribeEvent
         public static void registerCommands(RegisterCommandsEvent event) {
             LOGGER.info("Registering command");
-            registerCommand(event.getDispatcher());
+            //registerCommand(event.getDispatcher());
         }
     }
+
 
 }

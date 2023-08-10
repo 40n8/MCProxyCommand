@@ -81,7 +81,7 @@ public class ProxyCommandPlugin {
                 return;
             }
 
-            logger.info("Command \"{}\" was executed!", command);
+            logger.info("Command \"{}\" was executed by \"{}\"!", command, player.getUsername());
         } catch (Exception e) {
             logger.error("An error occurred while running this command.", e);
         }

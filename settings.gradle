@@ -7,6 +7,10 @@ pluginManagement {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        maven {
+            name = 'mixins'
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
+        }
         gradlePluginPortal()
     }
 }
