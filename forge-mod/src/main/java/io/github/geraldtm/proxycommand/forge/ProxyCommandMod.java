@@ -26,11 +26,11 @@ public class ProxyCommandMod {
 
     public static final Logger LOGGER = LogManager.getLogger("ProxyCommand");
 
-    private static final String PROTOCOL_VERSION = "1";
+    private static final String PROTOCOL_VERSION = NetworkRegistry.ACCEPTVANILLA;
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(MODID, "main"),
             () -> PROTOCOL_VERSION,
-            NetworkRegistry.ACCEPTVANILLA::equals,
+            PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
     );
     int index = 0;
