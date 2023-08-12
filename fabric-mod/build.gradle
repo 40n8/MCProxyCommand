@@ -54,10 +54,6 @@ dependencies {
     modImplementation 'maven.modrinth:fabricproxy-lite:v2.8.0'
     modImplementation 'com.moandjiezana.toml:toml4j:0.7.2'
 
-
-    // TODO These problems here could occur because loom, fabric or sponge or just something remaps the stuff
-    // Error got because Identifier is null
-
     implementation project(':common')
     include project(':common')
 }

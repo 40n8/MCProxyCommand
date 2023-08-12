@@ -17,7 +17,7 @@ version = mod_version
 group = mod_group_id
 
 base {
-    archivesName = mod_id
+    archivesName = "$rootProject.name-forge"
 }
 
 mixin {
@@ -93,9 +93,18 @@ repositories {
     // flatDir {
     //     dir 'libs'
     // }
+    maven {
+        name = 'mixins'
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
+    }
 }
 
 dependencies {
+    jarJar('de.michiruf.proxycommand:common:1.0') {
+        jarJar.ranged(it, '1.0')
+    }
+    implementation project(':common')
+
     // Specify the version of Minecraft to use.
     // Any artifact can be supplied so long as it has a "userdev" classifier artifact and is a compatible patcher artifact.
     // The "userdev" classifier will be requested and setup by ForgeGradle.
@@ -119,7 +128,8 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    implementation project(':common')
+
+
 
 }
 
@@ -162,7 +172,6 @@ tasks.named('jar', Jar).configure {
 
 // However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing:
 // tasks.named('publish').configure {
-//     dependsOn 'reobfJar'
 // }
 
 // Example configuration to allow publishing using the maven-publish plugin
