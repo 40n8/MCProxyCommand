@@ -32,3 +32,9 @@ allprojects {
     }
     project.group = 'michiruf'
 }
+tasks.register("runDev"){
+    def tasksToRun = ['velocity-runner:run','fabric-mod:runServer','forge-mod:runServer']
+    for(task in tasksToRun){
+        dependsOn(task)
+    }
+}

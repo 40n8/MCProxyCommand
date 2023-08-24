@@ -54,7 +54,7 @@ public class ProxyCommandPlugin {
             var data = e.dataAsDataStream();
             // Skip the first byte because it is junk?
             data.skipBytes(1);
-
+            logger.info("proycommand recieved packet");
             runCommand(player, data.readLine());
         } catch (Exception ex) {
             logger.info("ProxyCommandPlugin got unreadable PluginMessageEvent with data {} ...", e.dataAsDataStream().readLine());

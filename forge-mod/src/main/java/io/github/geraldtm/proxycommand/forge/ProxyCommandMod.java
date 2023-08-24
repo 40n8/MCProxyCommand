@@ -4,6 +4,7 @@ import de.michiruf.proxycommand.common.ProxyCommandConstants;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.VanillaPackResourcesBuilder;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
@@ -86,7 +87,6 @@ public class ProxyCommandMod {
                 .decoder(Message::decoder)
                 .consumerMainThread(Message::messageConsumer);
 
-        System.out.println("");
         INSTANCE.send(PacketDistributor.PLAYER.with((Supplier<ServerPlayer>) player), new Message(command));
         return 1;
     }
@@ -101,6 +101,7 @@ public class ProxyCommandMod {
 
         public void encoder(FriendlyByteBuf buffer) {
             buffer.writeUtf(this.command);
+            LOGGER.debug(buffer.readUtf());
         }
 
         public static Message decoder(FriendlyByteBuf buffer) {
