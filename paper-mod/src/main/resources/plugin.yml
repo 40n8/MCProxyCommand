@@ -1,0 +1,4 @@
+name: proxycommand
+version: '1.0-SNAPSHOT'
+main: sh.aiko.minecraft.plugin.proxycommand.Proxycommand
+api-version: '1.21'
