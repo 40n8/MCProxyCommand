@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.gradleup.shadow' version '8.3.0'
     id "xyz.jpenilla.run-velocity" version "2.3.1"
 }
 
@@ -13,6 +13,7 @@ tasks {
     velocityVersion("3.3.0-SNAPSHOT")
   }
 }
+version = "1.0.0-AIKO"
 
 repositories {
     maven {
@@ -29,11 +30,11 @@ dependencies {
 }
 
 shadowJar {
-    // Remove the '-all' appendix
-    archiveClassifier.set('')
+    // Replace the '-all' appendix
+    archiveClassifier.set('full')
 }
 
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 tasks.withType(JavaCompile).configureEach {
     // ensure that the encoding is set to UTF-8, no matter what the system default is
     // this fixes some edge cases with special characters not displaying correctly

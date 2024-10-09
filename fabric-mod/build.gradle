@@ -8,9 +8,9 @@ plugins {
 def minecraft_version='1.21'
 
 def yarn_mappings='1.21+build.9'
-def loader_version='0.15.11'
+def loader_version='0.16.0'
 
-def fabric_version='0.100.8+1.21'
+def fabric_version='0.101.1+1.21'
 
 repositories {
     // NOTE This should currently be not needed, but to fiddle around with this dependency issue
@@ -46,13 +46,17 @@ dependencies {
 
     // NOTE To work with the problems above, place these mods inside the mods folder
     // List of mods:
-    // * Fabric-API 0.84.0+1.20.1
-    // * FabricProxy-Lite 2.6.0
+    // * Fabric-API 0.91.1+1.20.2
+    // * FabricProxy-Lite 2.7.0
 
     // FabricProxy-Lite including transitives
     // https://github.com/OKTW-Network/FabricProxy-Lite
-    modImplementation 'maven.modrinth:fabricproxy-lite:v2.8.0'
-    modImplementation 'com.moandjiezana.toml:toml4j:0.7.2'
+    //modImplementation 'maven.modrinth:fabricproxy-lite:v2.8.0'
+    //modImplementation 'com.moandjiezana.toml:toml4j:0.7.2'
+
+
+    // TODO These problems here could occur because loom, fabric or sponge or just something remaps the stuff
+    // Error got because Identifier is null
 
     implementation project(':common')
     include project(':common')
@@ -106,6 +110,7 @@ java {
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
+    // archivesBaseName = "$rootProject.name-fabric"
     // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
     // if it is present.
     // If you remove this line, sources will not be generated.
