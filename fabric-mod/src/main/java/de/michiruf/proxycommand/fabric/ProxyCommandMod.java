@@ -71,7 +71,9 @@ public class ProxyCommandMod implements ModInitializer {
       "\" was triggered by " +
       player.getName().getString()
     );
-    // To communicate with the proxy, a S2C packet sent via the players connection is needed (the player's connection is the means of communication with the proxy)
+    // To communicate with the proxy,
+    // a S2C packet sent via the players connection is needed
+    // (the player's connection is the means of communication with the proxy)
 
     packetSender.sendCommandPacket(player, command);
 
