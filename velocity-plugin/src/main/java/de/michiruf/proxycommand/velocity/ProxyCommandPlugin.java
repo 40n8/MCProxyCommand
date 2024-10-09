@@ -22,6 +22,7 @@ import org.slf4j.Logger;
         name = "ProxyCommand",
         description = "Execute commands on a velocity proxy server from minecraft nodes",
         url = "https://github.com/michiruf/MCProxyCommand",
+        version =  "1.0.0",
         authors = {"Michael Ruf"}
 )
 public class ProxyCommandPlugin {
@@ -34,9 +35,12 @@ public class ProxyCommandPlugin {
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
         // Register the channel for the massage to listen on
-        server.getChannelRegistrar().register(MinecraftChannelIdentifier.from(ProxyCommandConstants.COMMAND_PACKET_ID));
+        server
+                .getChannelRegistrar()
+                .register(MinecraftChannelIdentifier.from(ProxyCommandConstants.COMMAND_PACKET_ID));
 
-        logger.info("Loaded ProxyCommandPlugin {}", getClass().getPackage().getImplementationVersion());
+        logger.info("Loaded ProxyCommandPlugin {}",
+                getClass().getPackage().getImplementationVersion());
     }
 
     @Subscribe
@@ -46,21 +50,20 @@ public class ProxyCommandPlugin {
             return;
         }
 
-        if (!(e.getTarget() instanceof Player))
+        if (e.getTarget() instanceof Player player) {
+            try {
+                var data = e.dataAsDataStream();
+                // Skip the first byte because it is junk?
+                data.skipBytes(1);
+                logger.info("proycommand recieved packet");
+                runCommand(player, data.readLine());
+            } catch (Exception ex) {
+                logger.info("ProxyCommandPlugin got unreadable PluginMessageEvent with data {} ...", e.dataAsDataStream().readLine());
+                throw new RuntimeException(ex);
+            }
+        } else {
             logger.info("ProxyCommandPlugin got PluginMessageEvent without a player for id {}", e.getIdentifier().getId());
-        var player = (Player) e.getTarget();
-
-        try {
-            var data = e.dataAsDataStream();
-            // Skip the first byte because it is junk?
-            data.skipBytes(1);
-
-            runCommand(player, data.readLine());
-        } catch (Exception ex) {
-            logger.info("ProxyCommandPlugin got unreadable PluginMessageEvent with data {} ...", e.dataAsDataStream().readLine());
-            throw new RuntimeException(ex);
         }
-
         e.setResult(PluginMessageEvent.ForwardResult.handled());
     }
 
@@ -81,7 +84,7 @@ public class ProxyCommandPlugin {
                 return;
             }
 
-            logger.info("Command \"{}\" was executed!", command);
+            logger.info("Command \"{}\" was executed by \"{}\"!", command, player.getUsername());
         } catch (Exception e) {
             logger.error("An error occurred while running this command.", e);
         }

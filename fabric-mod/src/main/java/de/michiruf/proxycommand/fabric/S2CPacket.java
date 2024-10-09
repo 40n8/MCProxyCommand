@@ -11,6 +11,10 @@ import net.minecraft.util.Identifier;
 
 public class S2CPacket {
 
+  /**
+   * @link <a href="https://fabricmc.net/wiki/tutorial:networking#networking_in_1205">Networking</a>
+   * @param command to execute
+   */
   public record ProxyCommandPacket(String command) implements CustomPayload {
     public static final CustomPayload.Id<ProxyCommandPacket> PACKET_ID = new CustomPayload.Id<>(
       Identifier.of(ProxyCommandConstants.COMMAND_PACKET_ID)
